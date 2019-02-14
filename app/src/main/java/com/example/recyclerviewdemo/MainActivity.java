@@ -1,5 +1,6 @@
 package com.example.recyclerviewdemo;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,11 +14,12 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    @SuppressLint("StaticFieldLeak")
     private static RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private static RecyclerView.Adapter adapter;
     static View.OnClickListener myOnClickListener;
-    static ArrayList<String> stringArrayList;
+    private static ArrayList<String> stringArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +30,21 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i <= 14; i++)
             stringArrayList.add("Element "+i);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rv);
+        recyclerView = findViewById(R.id.rv);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        adapter = new RecyclerViewAdapter(stringArrayList, this);
+        adapter = new RecyclerViewAdapter(stringArrayList);
         recyclerView.setAdapter(adapter);
 
         myOnClickListener = new MyOnClickListener(this);
     }
 
     //onClick events
-    private static class MyOnClickListener implements View.OnClickListener{
-
+    private static class MyOnClickListener implements View.OnClickListener {
         private final Context context;
 
         private MyOnClickListener(Context context) {
